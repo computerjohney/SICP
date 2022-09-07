@@ -13,13 +13,15 @@ var first =
 var second =
   "999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"; //"234859234879342897893427893274";
 
-if (first.length >= second.length) {
-  console.log(findSum(first, second));
-} else {
-  findSum(second, first);
+function findSum(first, second) {
+  if (first.length >= second.length) {
+    return fSum(first, second);
+  } else {
+    return fSum(second, first);
+  }
 }
 
-function findSum(first, second) {
+function fSum(first, second) {
   var sum = "";
   var carry = 0;
   var diff = second.length - first.length;
@@ -43,36 +45,35 @@ function findSum(first, second) {
   return sum;
 }
 
-// Now I need a findDouble, findHalve, findIsEven, findMinus1
+// Now I need a findDouble, findHalf, findIsEven, findMinus1
 // so can implement logitimes from ex1_17.js
-// findHalve only if it's even
-function dec2hex(str) {
-  // .toString(16) only works up to 2^53
-  var dec = str.toString().split(""),
-    sum = [],
-    hex = [],
-    i,
-    s;
-  while (dec.length) {
-    s = 1 * dec.shift();
-    for (i = 0; s || i < sum.length; i++) {
-      s += (sum[i] || 0) * 10;
-      sum[i] = s % 16;
-      s = (s - sum[i]) / 16;
+// findHalf only if it's even is already a given
+function findHalf(num) {
+  var carry = 0;
+  var quotient = ""; // answer, 2 is the divisor, num is the dividend
+  for (i = 0; i < num.length; i++) {
+    var temp = Number(num.charAt(i)) + carry;
+    if (temp % 2 === 0) {
+      carry = 0;
+    } else {
+      carry = 10;
     }
+    quotient = quotient + Math.floor(temp / 2); // a string
   }
-  while (sum.length) {
-    hex.push(sum.pop().toString(16));
-  }
-  return hex.join("");
+  // need to strip leading zeros
+
+  return quotient;
 }
-// better just go BINARY!
-function text2Binary(string) {
-  return string
-    .split("")
-    .map(function (char) {
-      return char.charCodeAt(0).toString(2); // mask 0011 off front of these
-    })
-    .join(" ");
+
+function findIsEven(num) {
+  var last = Number(num.charAt(num.length - 1));
+  return last % 2 === 0;
 }
-console.log(text2Binary("1234567890"));
+
+console.log(findHalf(findSum(first, second)));
+console.log(first);
+console.log(
+  findIsEven(
+    "7777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777"
+  )
+);
