@@ -13,6 +13,10 @@ var first =
 var second =
   "999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"; //"234859234879342897893427893274";
 
+function findDouble(num) {
+  return findSum(num, num);
+}
+
 function findSum(first, second) {
   if (first.length >= second.length) {
     return fSum(first, second);
@@ -60,14 +64,45 @@ function findHalf(num) {
     }
     quotient = quotient + Math.floor(temp / 2); // a string
   }
-  // need to strip leading zeros
-
+  // need to strip leading zeros!!!
+  if (quotient.length > 1 && quotient.charAt(0) == "0")
+    return quotient.slice(1);
   return quotient;
 }
 
 function findIsEven(num) {
   var last = Number(num.charAt(num.length - 1));
   return last % 2 === 0;
+}
+
+function findMinus1(num) {
+  //var newnum =num;
+  var last = Number(num.charAt(num.length - 1));
+  if (last !== 0) {
+    return num.slice(0, -1) + (last - 1); //slice(0, -1) is equivalent to slice(0, str. length - 1)
+  } else {
+    var newnum = num;
+    var nines = 0;
+    var position = num.length - 1;
+    // moving left
+    while (newnum.charAt(position) == "0") {
+      // last digit becomes 9, go 1 digit left
+      position--;
+      nines++;
+      var next = Number(newnum.charAt(position)) - 1; // -1 off the Number
+      // problem if it goes to 0...
+      if (next == 0) next = "0";
+    }
+    // got to do a substring replacement of chars
+    newnum = newnum.slice(0, position) + next; //+ "9";
+    while (nines > 0) {
+      newnum = newnum + "9";
+      nines--;
+    }
+    // strip a leading "0"
+    if (newnum.length > 1 && newnum.charAt(0) == "0") return newnum.slice(1);
+    return newnum;
+  }
 }
 
 console.log(findHalf(findSum(first, second)));
@@ -77,3 +112,38 @@ console.log(
     "7777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777"
   )
 );
+console.log(findMinus1("1"));
+
+function logtimes(a, b) {
+  var t = "0";
+  if (b === "0") {
+    console.log("got to 0");
+    return "0";
+  } else {
+    console.log(`got a: ${a} b: ${b} and t is: ${t}`);
+    // if b even half b, double a
+    if (findIsEven(b)) {
+      //halve(b);
+      //double(a);
+      t = logtimes(findDouble(a), findHalf(b));
+      console.log(`got a: ${a} b: ${b} and t is: ${t}`);
+      return t;
+    } else {
+      b = findMinus1(b);
+
+      t = findSum(a, logtimes(a, b));
+
+      console.log(`got a: ${a} b: ${b} and t is: ${t}`);
+
+      return t;
+    }
+  }
+}
+
+console.log(logtimes("6", "9"));
+console.log(logtimes("100300000000000000000000000000000000000000002", "90"));
+console.log(findHalf("130000000000000000000000000000000000000000000"));
+
+function factorial(n) {
+  //
+}
