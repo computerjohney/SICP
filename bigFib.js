@@ -141,9 +141,31 @@ function logtimes(a, b) {
 }
 
 console.log(logtimes("6", "9"));
-console.log(logtimes("100300000000000000000000000000000000000000002", "90"));
-console.log(findHalf("130000000000000000000000000000000000000000000"));
+console.log(
+  logtimes(
+    "100300000000000000000000000000000000000000002",
+    "9000000000000000000"
+  )
+);
+//console.log(findHalf("130000000000000000000000000000000000000000000"));
 
 function factorial(n) {
   //
+  //if (n == 0) return 1;
+  //return logtimes(String(n), factorial(String(n - 1)));
+  var res = "1",
+    i;
+  for (i = 2; i <= n; i++) {
+    res = logtimes(res, String(i));
+  }
+  return res;
 }
+
+console.log(factorial(25));
+var ways = factorial(52);
+console.log(
+  `... there are ${ways} ways to shuffle a deck of cards, so thats prob the 1st time`
+);
+console.log(
+  "that's 52! or 80658175170943878571660636856403766975289505440883277824000000000000"
+);
