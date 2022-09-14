@@ -117,23 +117,23 @@ console.log(findMinus1("1"));
 function logtimes(a, b) {
   var t = "0";
   if (b === "0") {
-    console.log("got to 0");
+    //console.log("got to 0");
     return "0";
   } else {
-    console.log(`got a: ${a} b: ${b} and t is: ${t}`);
+    //console.log(`got a: ${a} b: ${b} and t is: ${t}`);
     // if b even half b, double a
     if (findIsEven(b)) {
       //halve(b);
       //double(a);
       t = logtimes(findDouble(a), findHalf(b));
-      console.log(`got a: ${a} b: ${b} and t is: ${t}`);
+      //console.log(`got a: ${a} b: ${b} and t is: ${t}`);
       return t;
     } else {
       b = findMinus1(b);
 
       t = findSum(a, logtimes(a, b));
 
-      console.log(`got a: ${a} b: ${b} and t is: ${t}`);
+      //console.log(`got a: ${a} b: ${b} and t is: ${t}`);
 
       return t;
     }
@@ -169,3 +169,75 @@ console.log(
 console.log(
   "that's 52! or 80658175170943878571660636856403766975289505440883277824000000000000"
 );
+
+function bigFib(n) {
+  var fibAnswer = bigFib_iter("1", "0", "0", "1", n);
+  return fibAnswer;
+}
+
+function bigFib_iter(a, b, p, q, count) {
+  // return count === "0"
+  //   ? b
+  //   : findIsEven(count)
+  //   ? fib_iter(a, b, p * p + q * q, 2 * p * q + q * q, count / 2)
+  //   : fib_iter(b * q + a * q + a * p, b * p + a * q, p, q, count - 1); // last term is as given, a ← bq + aq + ap and b ← bp + aq
+  //
+  // spread out ...
+  var t;
+  var pSquared,
+    qSquared,
+    pSquaredAddqSquared,
+    pq,
+    pq2,
+    pq2AddqSquared,
+    halfCount;
+  var bq, aq, ap, sumOfbqaq, sumOfbqaqap, bp, sumOfbpaq, countless1;
+  if (count === 0) {
+    console.log(`The answer is ${b}`);
+    return b;
+  } else {
+    //if (findIsEven(count)) {
+    if (count % 2 === 0) {
+      pSquared = logtimes(p, p);
+      qSquared = logtimes(q, q);
+      pSquaredAddqSquared = findSum(pSquared, qSquared);
+      pq = logtimes(p, q);
+      pq2 = logtimes("2", pq);
+      pq2AddqSquared = findSum(pq2, qSquared);
+      //halfCount = findHalf(count);
+      //console.log(
+      //   `In bigFib, terms: ${a}, ${b}, ${pSquaredAddqSquared}, ${pq2AddqSquared}, ${
+      //     count / 2
+      //   }`
+      // );
+      t = bigFib_iter(a, b, pSquaredAddqSquared, pq2AddqSquared, count / 2); //halfCount);
+      return t;
+    } else {
+      bq = logtimes(b, q);
+      aq = logtimes(a, q);
+      ap = logtimes(a, p);
+      sumOfbqaq = findSum(bq, aq);
+      sumOfbqaqap = findSum(sumOfbqaq, ap);
+      bp = logtimes(b, p);
+      sumOfbpaq = findSum(bp, aq);
+      //countless1 = findMinus1(count);
+      //console.log(
+      //   `In bigFib, terms: ${sumOfbqaqap}, ${sumOfbpaq}, ${p}, ${q}, ${
+      //     count - 1
+      //   }`
+      // );
+      t = bigFib_iter(sumOfbqaqap, sumOfbpaq, p, q, count - 1); //countless1);
+      return t;
+    }
+  }
+}
+
+console.log(bigFib(6));
+console.log(bigFib(12));
+console.log(bigFib(100));
+console.log(
+  `The 1000th Fibonacci number is 43466557686937456435688527675040625802564660517371780402481729089536555417949051890403879840079255169295922593080322634775209689623239873322471161642996440906533187938298969649928516003704476137795166849228875 It took 4 milliseconds to compute it.`
+);
+
+console.log(bigFib(1000));
+//console.log(bigFib(10000));
