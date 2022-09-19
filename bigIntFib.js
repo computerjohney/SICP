@@ -15,8 +15,15 @@
 //
 
 function bigFib(n) {
-  var fibAnswer = bigFib_iter(1n, 0n, 0n, 1n, n);
-  return fibAnswer;
+  var normalised;
+  var answer = 0n;
+
+  n < 0 ? (normalised = n * -1) : (normalised = n);
+  var fibAnswer = bigFib_iter(1n, 0n, 0n, 1n, BigInt(normalised));
+  n < 0 && n % 2 === 0
+    ? (answer = fibAnswer * BigInt(-1))
+    : (answer = fibAnswer);
+  return String(answer);
 }
 
 function bigFib_iter(a, b, p, q, count) {
@@ -96,6 +103,6 @@ function bigFib_iter(a, b, p, q, count) {
 //   `The 1000th Fibonacci number is 43466557686937456435688527675040625802564660517371780402481729089536555417949051890403879840079255169295922593080322634775209689623239873322471161642996440906533187938298969649928516003704476137795166849228875 It took 4 milliseconds to compute it.`
 // );
 
-// console.log(bigFib(1000));
-//console.log(bigFib(10000));
-console.log(bigFib(0n));
+console.log(bigFib(1000));
+console.log(bigFib(-96)); // -51680708854858323072
+console.log(bigFib(0));
